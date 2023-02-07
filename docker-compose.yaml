@@ -1,5 +1,11 @@
 version: '3'
 services:
+  nginx:
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
   db:
     image: postgres
     environment:
@@ -11,8 +17,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./postgress/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
-
-  app:
+  backend:
     build: 
       dockerfile: Dockerfile.dev
       context: ./backend
@@ -33,6 +38,6 @@ services:
     ports:
       - 3000:3000
     links:
-      - app
+      - backend
 volumes:
   pgdata:

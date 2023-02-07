@@ -8,7 +8,7 @@ export default class ExpenseList extends Component {
   };
 
   componentDidMount() {
-    fetch("http://app:5000/expenses")
+    fetch("/api/expenses")
       .then((res) => res.json())
       .then((data) => this.setState({ data, loading: false }))
       .catch((error) => console.error(error));
