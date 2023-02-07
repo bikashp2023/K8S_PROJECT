@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgress/create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
+
+  app:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./backend
+    ports:
+      - 5000:5000
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
+    links:
+      - db
+  front:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    ports:
+      - 3000:3000
+    links:
+      - app
+volumes:
+  pgdata:
