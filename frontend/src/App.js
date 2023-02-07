@@ -31,7 +31,7 @@ export default class App extends Component {
       amount: this.state.amount,
       insertdate: this.state.date,
     };
-    fetch("http://localhost:5000/expenses", {
+    fetch("http://app:5000/expenses", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
